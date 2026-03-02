@@ -9,14 +9,6 @@ def collector():
 
     return collector
 
-
-@pytest.fixture
-def new_book():
-    new_book = "Оно"
-
-    return new_book
-
-
 @pytest.fixture
 def few_books(collector):
     collector.add_new_book("Гарри Поттер")

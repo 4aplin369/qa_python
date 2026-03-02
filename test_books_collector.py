@@ -1,11 +1,13 @@
 import pytest
 
+import data
+
 
 class TestBooksCollector:
-    def test_add_new_book_add_book(self, collector, new_book):
-        collector.add_new_book(new_book)
+    def test_add_new_book_add_book(self, collector):
+        collector.add_new_book(data.NEW_BOOK)
 
-        assert collector.get_book_genre(new_book) == ""
+        assert collector.get_book_genre(data.NEW_BOOK) == ""
 
     @pytest.mark.parametrize(
         "book_name, expected_result",
@@ -21,26 +23,24 @@ class TestBooksCollector:
 
         assert collector.get_book_genre(book_name) == expected_result
 
-    def test_set_book_genre_correct_set_genre(self, collector, new_book):
+    def test_set_book_genre_correct_set_genre(self, collector):
 
-        collector.add_new_book(new_book)
-        collector.set_book_genre(new_book, "Ужасы")
+        collector.add_new_book(data.NEW_BOOK)
+        collector.set_book_genre(data.NEW_BOOK, "Ужасы")
 
-        assert collector.get_book_genre(new_book) == "Ужасы"
+        assert collector.get_book_genre(data.NEW_BOOK) == "Ужасы"
 
     @pytest.mark.parametrize("genre", ["Тестовый жанр", " ", "", "Ужас"])
-    def test_set_book_genre_set_incorrect_genre_values(
-        self, collector, new_book, genre
-    ):
+    def test_set_book_genre_set_incorrect_genre_values(self, collector, genre):
 
-        collector.add_new_book(new_book)
-        collector.set_book_genre(new_book, genre)
+        collector.add_new_book(data.NEW_BOOK)
+        collector.set_book_genre(data.NEW_BOOK, genre)
 
-        assert collector.get_book_genre(new_book) == ""
+        assert collector.get_book_genre(data.NEW_BOOK) == ""
 
-    def test_get_book_genre_no_such_book_none(self, collector, new_book):
+    def test_get_book_genre_no_such_book_none(self, collector):
 
-        assert collector.get_book_genre(new_book) is None
+        assert collector.get_book_genre("Несуществующая книга") is None
 
     @pytest.mark.parametrize(
         "book_genre,expected_books",
@@ -79,16 +79,16 @@ class TestBooksCollector:
             "Бетховен",
         ]
 
-    def test_add_book_in_favorites_add_correct_book(self, collector, new_book):
+    def test_add_book_in_favorites_add_correct_book(self, collector):
 
-        collector.add_new_book(new_book)
-        collector.add_book_in_favorites(new_book)
+        collector.add_new_book(data.NEW_BOOK)
+        collector.add_book_in_favorites(data.NEW_BOOK)
 
         assert collector.get_list_of_favorites_books() == ["Оно"]
 
-    def test_add_book_in_favorites_add_incorrect_book(self, collector, new_book):
+    def test_add_book_in_favorites_add_incorrect_book(self, collector):
 
-        collector.add_book_in_favorites(new_book)
+        collector.add_book_in_favorites(data.NEW_BOOK)
 
         assert collector.get_list_of_favorites_books() == []
 
